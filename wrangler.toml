@@ -3,10 +3,14 @@ main = "src/index.ts"
 compatibility_date = "2024-07-01"
 
 # D1 Database
+# 通过 Cloudflare Dashboard 或 CLI 绑定:
+#   wrangler d1 binding add ledger-worker DB
+# 或在 Dashboard 中: Workers & Pages > ledger-worker > Settings > D1 database bindings
 [[d1_databases]]
 binding = "DB"
 database_name = "ledger-db"
-database_id = "15531e3f-0591-41a0-9923-2886903ced4d"
+# database_id 可通过 `wrangler d1 info ledger-db` 获取
+# 部署时 Wrangler 会自动从 Cloudflare 获取绑定，无需硬编码
 
 # R2 Bucket
 [[r2_buckets]]
