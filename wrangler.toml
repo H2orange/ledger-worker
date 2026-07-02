@@ -6,7 +6,7 @@ compatibility_date = "2024-07-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "ledger-db"
-database_id = ""
+database_id = "15531e3f-0591-41a0-9923-2886903ced4d"
 
 # R2 Bucket
 [[r2_buckets]]
