@@ -1,0 +1,23 @@
+{
+  "name": "ledger-worker",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create ledger-db",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "wrangler d1 execute ledger-db --local --file=./drizzle/migrations/*.sql",
+    "db:migrate:remote": "wrangler d1 execute ledger-db --remote --file=./drizzle/migrations/*.sql"
+  },
+  "dependencies": {
+    "hono": "^4.4.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240620.0",
+    "drizzle-kit": "^0.22.0",
+    "drizzle-orm": "^0.31.0",
+    "typescript": "^5.5.3",
+    "wrangler": "^3.62.0"
+  }
+}
