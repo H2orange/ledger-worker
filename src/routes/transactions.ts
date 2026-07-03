@@ -17,7 +17,6 @@ transactionsRoutes.get('/', async (c) => {
       amount: transactions.amount,
       categoryId: transactions.categoryId,
       description: transactions.description,
-      imageKey: transactions.imageKey,
       transactionDate: transactions.transactionDate,
       createdAt: transactions.createdAt,
       updatedAt: transactions.updatedAt,
@@ -41,10 +40,10 @@ transactionsRoutes.get('/', async (c) => {
 transactionsRoutes.post('/', async (c) => {
   const db = c.var.db;
   const body = await c.req.json();
-  const { type, amount, categoryId, description, imageKey, transactionDate } = body;
+  const { amount, categoryId, description, transactionDate } = body;
 
-  if (!type || !amount || !categoryId || !transactionDate) {
-    return c.json({ error: 'type, amount, categoryId, and transactionDate are required' }, 400);
+  if (!amount || !categoryId || !transactionDate) {
+    return c.json({ error: 'amount, categoryId, and transactionDate are required' }, 400);
   }
 
   const id = crypto.randomUUID();
@@ -52,11 +51,10 @@ transactionsRoutes.post('/', async (c) => {
 
   await db.insert(transactions).values({
     id,
-    type,
+    type: 'expense',
     amount: Number(amount),
     categoryId,
     description: description || '',
-    imageKey: imageKey || null,
     transactionDate,
     createdAt: now,
     updatedAt: now,
@@ -69,7 +67,6 @@ transactionsRoutes.post('/', async (c) => {
       amount: transactions.amount,
       categoryId: transactions.categoryId,
       description: transactions.description,
-      imageKey: transactions.imageKey,
       transactionDate: transactions.transactionDate,
       createdAt: transactions.createdAt,
       updatedAt: transactions.updatedAt,
@@ -88,7 +85,7 @@ transactionsRoutes.put('/:id', async (c) => {
   const db = c.var.db;
   const id = c.req.param('id');
   const body = await c.req.json();
-  const { type, amount, categoryId, description, imageKey, transactionDate } = body;
+  const { amount, categoryId, description, transactionDate } = body;
 
   const existing = await db.select().from(transactions).where(eq(transactions.id, id));
   if (existing.length === 0) {
@@ -96,11 +93,9 @@ transactionsRoutes.put('/:id', async (c) => {
   }
 
   const updateData: any = { updatedAt: new Date().toISOString() };
-  if (type !== undefined) updateData.type = type;
   if (amount !== undefined) updateData.amount = Number(amount);
   if (categoryId !== undefined) updateData.categoryId = categoryId;
   if (description !== undefined) updateData.description = description;
-  if (imageKey !== undefined) updateData.imageKey = imageKey;
   if (transactionDate !== undefined) updateData.transactionDate = transactionDate;
 
   await db.update(transactions).set(updateData).where(eq(transactions.id, id));
@@ -112,7 +107,6 @@ transactionsRoutes.put('/:id', async (c) => {
       amount: transactions.amount,
       categoryId: transactions.categoryId,
       description: transactions.description,
-      imageKey: transactions.imageKey,
       transactionDate: transactions.transactionDate,
       createdAt: transactions.createdAt,
       updatedAt: transactions.updatedAt,

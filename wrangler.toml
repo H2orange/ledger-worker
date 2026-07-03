@@ -9,8 +9,7 @@ compatibility_date = "2024-07-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "ledger-db"
-# database_id 可通过 `wrangler d1 info ledger-db` 获取
-# 部署时 Wrangler 会自动从 Cloudflare 获取绑定，无需硬编码
+database_id = "00000000-0000-0000-0000-000000000000"
 
 # R2 Bucket
 [[r2_buckets]]
