@@ -17,6 +17,7 @@ transactionsRoutes.get('/', async (c) => {
       amount: transactions.amount,
       categoryId: transactions.categoryId,
       description: transactions.description,
+      imageKey: transactions.imageKey,
       transactionDate: transactions.transactionDate,
       createdAt: transactions.createdAt,
       updatedAt: transactions.updatedAt,
@@ -40,7 +41,7 @@ transactionsRoutes.get('/', async (c) => {
 transactionsRoutes.post('/', async (c) => {
   const db = c.var.db;
   const body = await c.req.json();
-  const { amount, categoryId, description, transactionDate } = body;
+  const { amount, categoryId, description, transactionDate, imageKey } = body;
 
   if (!amount || !categoryId || !transactionDate) {
     return c.json({ error: 'amount, categoryId, and transactionDate are required' }, 400);
@@ -55,6 +56,7 @@ transactionsRoutes.post('/', async (c) => {
     amount: Number(amount),
     categoryId,
     description: description || '',
+    imageKey: imageKey || null,
     transactionDate,
     createdAt: now,
     updatedAt: now,
@@ -67,6 +69,7 @@ transactionsRoutes.post('/', async (c) => {
       amount: transactions.amount,
       categoryId: transactions.categoryId,
       description: transactions.description,
+      imageKey: transactions.imageKey,
       transactionDate: transactions.transactionDate,
       createdAt: transactions.createdAt,
       updatedAt: transactions.updatedAt,
@@ -85,7 +88,7 @@ transactionsRoutes.put('/:id', async (c) => {
   const db = c.var.db;
   const id = c.req.param('id');
   const body = await c.req.json();
-  const { amount, categoryId, description, transactionDate } = body;
+  const { amount, categoryId, description, transactionDate, imageKey } = body;
 
   const existing = await db.select().from(transactions).where(eq(transactions.id, id));
   if (existing.length === 0) {
@@ -97,6 +100,7 @@ transactionsRoutes.put('/:id', async (c) => {
   if (categoryId !== undefined) updateData.categoryId = categoryId;
   if (description !== undefined) updateData.description = description;
   if (transactionDate !== undefined) updateData.transactionDate = transactionDate;
+  if (imageKey !== undefined) updateData.imageKey = imageKey;
 
   await db.update(transactions).set(updateData).where(eq(transactions.id, id));
 
@@ -107,6 +111,7 @@ transactionsRoutes.put('/:id', async (c) => {
       amount: transactions.amount,
       categoryId: transactions.categoryId,
       description: transactions.description,
+      imageKey: transactions.imageKey,
       transactionDate: transactions.transactionDate,
       createdAt: transactions.createdAt,
       updatedAt: transactions.updatedAt,

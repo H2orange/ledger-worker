@@ -21,6 +21,7 @@ billsRoutes.get('/:month', async (c) => {
       amount: transactions.amount,
       categoryId: transactions.categoryId,
       description: transactions.description,
+      imageKey: transactions.imageKey,
       transactionDate: transactions.transactionDate,
       categoryName: categories.name,
       categoryIcon: categories.icon,
